@@ -126,6 +126,25 @@ document.addEventListener("DOMContentLoaded", () => {
       category: "others", // Link to the "Others" category
     },
   ];
+  
+
+  const quotes = [
+    "Believe you can and you're halfway there.",
+    "Small steps every day add up to big change.",
+    "Every new tab is a fresh start—make it count!",
+    "The Warriors will win today, and so will you.",
+    "You’ve got this. Keep going!"
+  ];
+
+  function showRandomQuote() {
+    const box = document.getElementById("quote-overlay");
+    if (!box) return;                     // safety net
+    const random = quotes[Math.floor(Math.random() * quotes.length)];
+    console.log("selected quote: ", random);
+    box.textContent = random;
+  }
+
+  showRandomQuote();
 
   function removeAllListeners() {
     hoverListeners.forEach((listener) => {
