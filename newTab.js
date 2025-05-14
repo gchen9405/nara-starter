@@ -146,6 +146,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
   showRandomQuote();
 
+  /* ─── Speech‑bubble encouragement logic ────────────────────── */
+
+  /** Encouraging messages to rotate through */
+
+   
+  const ENCOURAGEMENTS = [
+    "Great job!",
+    "You’re making progress!",
+    "Keep going!",
+    "Nicely done!",
+    "Way to go!"
+  ];
+
+  /** Show a bubble above the deer for ~2.5 s */
+  
+  function showEncouragement() {
+    console.log("inside showEncouragement") 
+    // Locate the deer once (memoise)
+
+    // Build the new bubble
+    const bubble = document.createElement("div");
+    bubble.className = "speech-bubble";
+    bubble.textContent = 
+      ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
+    document.body.appendChild(bubble);
+
+    console.log("bubble: ", bubble)
+
+
+    // Fade‑in on the next frame so the CSS transition triggers
+    requestAnimationFrame(() => { bubble.style.opacity = "1"; });
+
+    // After 2.5 s, start fade‑out and then remove
+    setTimeout(() => {
+      bubble.classList.add("fade-out");
+      bubble.addEventListener("transitionend", () => bubble.remove(), { once: true });
+    }, 2500);
+
+    console.log("exiting showEncouragement") 
+
+  }
+
+  /** Delegate to any checkbox that marks a task complete.
+      Adjust the selector ".task-checkbox" if yours differs. */
+
+  document.addEventListener("change", (e) => {
+  // runs only when a checkbox inside #task-list changes to checked
+    if (e.target.type === "checkbox" && e.target.checked &&
+        e.target.closest("#task-list")) {
+      showEncouragement();
+    }
+  });
+
   function removeAllListeners() {
     hoverListeners.forEach((listener) => {
       document.removeEventListener("mousemove", listener);
